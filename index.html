@@ -1,157 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+  <!--  jQuery-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-<!-- Bootstrap -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  
+  <!-- Added Moment JS -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-database.js"></script>
 
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-       https://firebase.google.com/docs/web/setup#config-web-app -->
-  
-  
-    <!-- ================================================================================== -->
-  
-    <!-- Firebase Core JavaScript Link -->
-   <!-- The core Firebase JS SDK is always required and must be listed first -->
-  
-     <!-- Specific Firebase products we want -->
-     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-database.js"></script>
-  
-     <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyDV2pPyBVfRmLsbEFfBv3xuRUZOgF_F9oM",
-        authDomain: "train-b8133.firebaseapp.com",
-        databaseURL: "https://train-b8133.firebaseio.com",
-        projectId: "train-b8133",
-        storageBucket: "train-b8133.appspot.com",
-        messagingSenderId: "823600195197",
-        appId: "1:823600195197:web:aa0c64ca60a11194"
-      };
-      // Initialize Firebase
-  
-      firebase.initializeApp(firebaseConfig);
-  
-      // Variables
-      // ================================================================================
-  
-      // Get a reference to the database service
-      var database = firebase.database();
-  
-      // Initializing our click count at 0
-      var clickCounter = 0;
-  
-      // Functions
-      // ================================================================================
-  
-      // On Click
-      $( document ).ready(function() {
-        $('.submit').on('click', function (e) {
-          alert($("#train-name-input").val());
-          console.log($("#train-name-input").val());
-          let trainName=$("#train-name-input").val();
-          let destination=$("#destination-input").val();
-          let trainTime=$("#trainTime-input").val();
-          let frequency=$("#frequency-input").val();
-          // Add 1 to clickCounter
-          // clickCounter++;
-    
-          // **** Store Click Data to Firebase in a JSON property called clickCount *****
-          // **** Note how we are using the Firebase .set() method ****
-          // **** .ref() refers to the path you want to save your data to
-          // **** Since we left .ref() blank, it will save to the root directory
-          database.ref().set({
-            trainName_: trainName,
-            destination_: destination,
-            trainTime_: trainTime,
-            frequency_: frequency
-          });
-    
-          // Now! go to https://fir-click-counter-7cdb9.firebaseio.com/ to see the impact to the DB
 
-      })
-    })
-    </script>
-  
 </head>
+
 <body>
-<div class="container">
-<!-- jumbotron -->
-
-<div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4">Train APP</h1>
-    <p class="lead">This is a visual schedule.</p>
-  </div>
-</div>
+    <!-- jumbotron -->
 
-<!-- Card with train schedule -->
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Train APP</h1>
+        <p class="lead">This is a visual schedule.</p>
+      </div>
+    </div>
 
-<div class="card">
-  <div class="card-header">
-    Current Train Schedule
-  </div>
-  <div class="card-body">
-    <table class="table table-hover" id="train-table">
-      <thead>
-        <tr>
-          <th>Train Name</th>
-          <th>Destination</th>
-          <th>Frequency (minutes)</th>
-          <th>Next Arrival</th>
-          <th>Minutes Away</th>
-       </tr>
-      </thead>
-      <tbody>
-      </tbody>
-      </table>
-  </div>
-</div>
+    <!-- Card with train schedule -->
 
-<!-- Form to add Train -->
+    <div class="card">
+      <div class="card-header">
+        Current Train Schedule
+      </div>
+      <div class="card-body">
+        <table class="table table-hover" id="train-table">
+          <thead>
+            <tr>
+              <th>Train Name</th>
+              <th>Destination</th>
+              <th>Frequency (minutes)</th>
+              <th>Next Arrival</th>
+              <th>Minutes Away</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-<form action="" class="submit">
-  <div class="form-group">
-    <label for="train-name-input">Train Name</label>
-    <input type="text" class="form-control" id="train-name-input">
-  </div>
-  <div class="form-group">
-    <label for="destination-input">Destination</label>
-    <input type="text" class="form-control" id="destination-input">
+    <!-- Form to add Train -->
+
+    <form>
+      <div class="form-group">
+        <label for="train-name-input">Train Name</label>
+        <input type="text" class="form-control" id="train-name-input">
+      </div>
+      <div class="form-group">
+        <label for="destination-input">Destination</label>
+        <input type="text" class="form-control" id="destination-input">
+      </div>
+
+      <div class="form-group">
+        <label for="trainTime-input">Train Time</label>
+        <input type="text" class="form-control" id="trainTime-input">
+      </div>
+
+      <div class="form-group">
+        <label for="frequency-input">Frequency</label>
+        <input type="text" class="form-control" id="frequency-input">
+      </div>
+
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+      <button type="submit" class="btn btn-primary" id="add-train-button">Submit</button>
+    </form>
   </div>
 
-  <div class="form-group">
-    <label for="trainTime-input">Train Time</label>
-    <input type="text" class="form-control" id="trainTime-input">
-  </div>
-
-  <div class="form-group">
-    <label for="frequency-input">Frequency</label>
-    <input type="text" class="form-control" id="frequency-input">
-  </div>
-
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-</div>
-
-<!-- Javascript -->
-  <script type="text/javascript" src="app.js"></script>  
+  <!-- Javascript -->
+  <script type="text/javascript" src="app.js"></script>
 </body>
+
 </html>
